@@ -63,3 +63,156 @@
   <text fill="#ffffff" font-size="45" font-family="Verdana" x="50" y="86">SVG</text>
   Sorry, your browser does not support inline SVG.
 </svg>
+
+	  <head>
+    <meta charset="utf-8"/>
+    <title> Races 1.0.0 </title>
+    <link rel="stylesheet" href="css/main.css">
+    <script src="js/libs/playground-base.js"></script>
+    <script src="js/libs/raphael.js"></script>
+    <script src="js/maps.js"></script>
+    <script src="js/engineMenu.js"></script>
+    <script src="js/engineMain.js"></script>
+  <head/>
+  <body>
+    <table id = "table_menu">
+      <tr>
+        <td colspan="3">
+          <input type="text" id = "input_name" maxlength="20" autofocus tabindex="1"/>
+        </td>
+        <td colspan="3" rowspan="4" id="td_controls" >
+          <div>
+          Управление(стрелками): <br/>
+          UP - увеличить скорость <br/>
+          DOWN - уменьшить скорость </br>
+          RAIGHT - повернуть направо </br>
+          LEFT - повернуть налево <br/><br/>
+          ESCAPE - вызвать меню игры <br/><br/><br/>
+          оттестировано под chromium 49
+          </div>
+        </td>        
+      </tr>
+      <tr>
+        <td>
+          <img src="img/blue.png" class="img_racer"/>
+        </td>
+        <td>
+          <img src="img/red.png" class="img_racer"/>          
+        </td>
+        <td>
+          <img src="img/green.png" class="img_racer"/>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <img src="img/turquoise.png" class="img_racer"/>
+        </td>
+        <td>
+          <img src="img/yellow.png" class="img_racer"/>
+        </td>
+        <td>
+          <img src="img/black.png" class="img_racer"/>
+        </td>        
+      </tr>
+      <tr>
+        <td colspan="3" id="td_maps_collection">  
+          <div>
+          </div>
+        </td>
+      </tr>
+      <tr> 
+        <td colspan="2">
+          <input type="button" id="button_sounds" value="Звук выкл."/>
+        </td>
+        <td colspan="1">
+          <input type="button" id="button_start" tabindex="2" value="Играть!">
+        </td>
+        <td colspan="3" rowspan="1" class = "td_title" id = "td_chromium">
+          <a href="http://playgroundjs.com/"> play-ground.js</a> <br/>
+          <a href="http://raphaeljs.com/"> raphael.js</a>  <br/>        
+        </td>        
+      </tr>
+    </table>
+  
+    <table class="table_maps">
+      <tr>
+        <td rowspan="2" class="choise_maps_name">
+
+        </td>
+        <td class="choise_maps_user">
+
+        </td>
+      </tr>
+    </table>
+
+    <div id = "div_menu">
+      <input type="button" tabindex="1" value="Рестарт"/>
+      <input type="button" tabindex="2" value="Выйти в меню"/>
+      <input type="button" tabindex="3" value="Продолжить"/>    
+    </div>
+
+    <div id="div_popup">
+      
+    </div>
+    
+    <div id="div_popup_finish">
+      <div></div>
+      <div>
+        <span></span><br/><br/>
+        <input type="button" tabindex="1" value="Выйти в меню"/>
+        <input type="button" tabindex="2" value="Рестарт"/>
+      </div>  
+    </div>
+    <script>
+    
+    var params = {};
+
+    var ENGINE = {};
+
+    ENGINE.main = main;
+    ENGINE.menu = menu;
+
+    // main Application of the game
+     var app = new PLAYGROUND.Application({
+
+      //there is loading resorce
+      create: function(){
+
+        var select_music;        
+        
+        this.loadSounds('fly_main', 'fly_rival_1', 'fly_rival_2', 'hit', 'wind', 'bip');
+        
+        select_music = Math.floor(Math.random() * 2);
+        
+        if (select_music > 0){
+          this.loadSounds('alien_swamp');
+          this.sound.alias('music', 'alien_swamp', 1.0, 1.0);
+        } else {
+          this.loadSounds('Games_Begin');
+          this.sound.alias('music', 'Games_Begin', 1.0, 1.0);
+        } 
+                
+        this._sizes_ = {
+          w: window.innerWidth,
+          h: window.innerHeight,
+        };
+        
+         this._svg_ = Raphael(0, 0, this._sizes_.w, this._sizes_.h);
+      },
+      // call after loading
+      ready: function(){
+        this.setState(ENGINE.menu);
+      },
+      
+      resize: function(){
+        
+        this._sizes_.w = window.innerWidth;
+        this._sizes_.h = window.innerHeight;
+        
+        this._svg_.canvas.style.width = this._svg_.canvas.width = this._svg_.width = this._sizes_.w;
+        this._svg_.canvas.style.height = this._svg_.canvas.height = this._svg_.height = this._sizes_.h;
+      },   
+    });
+
+    </script>
+  </body>
